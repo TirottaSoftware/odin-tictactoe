@@ -16,6 +16,8 @@ const winningCombinations = [
 let playerXcombo = [];
 let playerOcombo = [];
 
+let boardEnabled = true;
+
 const Gameboard = (() => {
   let array = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
 
@@ -65,8 +67,10 @@ const displayController = (() => {
   };
   const renderResult = (result) => {
     resultElement.textContent = result;
+    boardEnabled = false;
     clearButton.style.display = "none"; // You can also use classList.toggle('btn-hidden')
     setTimeout(() => {
+      boardEnabled = true;
       clearButton.style.display = "block";
       resultElement.textContent = "";
       Gameboard.clearBoard();
@@ -90,17 +94,23 @@ let turn = 0;
 
 cells.forEach((cell, index) => {
   cell.addEventListener("click", () => {
-    if (cell.textContent == " ") {
-      if (turn % 2 == 0) {
-        cell.textContent = x.marker;
-        playerXcombo.push(index + 1);
-        Gameboard.checkWinnerX();
-      } else {
-        cell.textContent = o.marker;
-        playerOcombo.push(index + 1);
-        Gameboard.checkWinnerO();
+    if (boardEnabled) {
+      if (turn == 9) {
+        displayController.renderResult("Tie!");
       }
-      turn++;
+      if (cell.textContent == " ") {
+        if (turn % 2 == 0) {
+          cell.textContent = x.marker;
+          playerXcombo.push(index + 1);
+          Gameboard.checkWinnerX();
+        } else {
+          cell.textContent = o.marker;
+          playerOcombo.push(index + 1);
+          Gameboard.checkWinnerO();
+        }
+        turn++;
+        console.log(turn);
+      }
     }
   });
 });
