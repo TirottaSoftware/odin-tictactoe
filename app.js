@@ -2,17 +2,10 @@ const cells = document.querySelectorAll(".cell");
 const clearButton = document.querySelector(".btn-clear");
 
 const Gameboard = (() => {
-  let array = [
-    [" ", " ", " "],
-    [" ", " ", " "],
-    [" ", " ", " "],
-  ];
+  let array = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
   const clearBoard = () => {
-    array = [
-      [" ", " ", " "],
-      [" ", " ", " "],
-      [" ", " ", " "],
-    ];
+    Gameboard.array = [" ", " ", " ", " ", " ", " ", " ", " ", " "];
+    turn = 0;
     displayController.render();
   };
   return { array, clearBoard };
@@ -20,14 +13,9 @@ const Gameboard = (() => {
 
 const displayController = (() => {
   const render = () => {
-    for (let i = 0; i < Gameboard.array.length; i++) {
-      //Populating each cell according to the gameboard array
-      for (let j = 0; j < Gameboard.array[i].length; j++) {
-        cells[
-          (i + 1) * (j + 1) + i * (Gameboard.array.length - (j + 1)) - 1
-        ].textContent = Gameboard.array[i][j];
-      }
-    }
+    cells.forEach((cell, index) => {
+      cell.textContent = Gameboard.array[index];
+    });
   };
   return { render };
 })();
@@ -41,16 +29,14 @@ const playerFactory = (marker) => {
 const x = playerFactory("X");
 const o = playerFactory("O");
 
-let playerTurn = true;
+let turn = 0;
 
 // Adding a click event to each cell
 
-cells.forEach((cell) => {
+cells.forEach((cell, index) => {
   cell.addEventListener("click", () => {
-    if (cell.textContent == " ") {
-      cell.textContent = playerTurn ? x.marker : o.marker;
-      playerTurn = !playerTurn;
-    }
+    cell.textContent = turn % 2 == 0 ? x.marker : o.marker;
+    turn++;
   });
 });
 
