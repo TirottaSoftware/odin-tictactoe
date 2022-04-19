@@ -30,3 +30,18 @@
 .cell:hover{
     background: #b5b5b5;
 }
+.result {
+    text-align: center;
+    font-size: 60px;
+}
+.btn-clear{
+    width: 20%;
+    margin: 10px 40%;
+    font-size: 28px;
+    padding: 5px 20px;
+    color: white;
+    background: rgb(44, 109, 231);
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}

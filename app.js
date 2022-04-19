@@ -1,5 +1,6 @@
 const cells = document.querySelectorAll(".cell");
 const clearButton = document.querySelector(".btn-clear");
+const resultElement = document.querySelector(".result");
 
 const winningCombinations = [
   [1, 4, 7],
@@ -35,8 +36,7 @@ const Gameboard = (() => {
         playerXcombo.indexOf(winningCombinations[i][1]) >= 0 &&
         playerXcombo.indexOf(winningCombinations[i][2]) >= 0
       ) {
-        alert("Player X wins.");
-        clearBoard();
+        displayController.renderResult("Player X wins.");
       }
     }
   };
@@ -49,8 +49,7 @@ const Gameboard = (() => {
         playerOcombo.indexOf(winningCombinations[i][1]) >= 0 &&
         playerOcombo.indexOf(winningCombinations[i][2]) >= 0
       ) {
-        alert("Player O wins.");
-        clearBoard();
+        displayController.renderResult("Player O wins.");
       }
     }
   };
@@ -64,7 +63,16 @@ const displayController = (() => {
       cell.textContent = Gameboard.array[index];
     });
   };
-  return { render };
+  const renderResult = (result) => {
+    resultElement.textContent = result;
+    clearButton.style.display = "none"; // You can also use classList.toggle('btn-hidden')
+    setTimeout(() => {
+      clearButton.style.display = "block";
+      resultElement.textContent = "";
+      Gameboard.clearBoard();
+    }, 3000);
+  };
+  return { render, renderResult };
 })();
 
 displayController.render();
